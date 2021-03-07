@@ -6,23 +6,16 @@
 #include <fstream>
 #include <stdio.h>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <filesystem>
 #include <unistd.h>
 #include <openssl/conf.h>
 #include <openssl/err.h>
 #include <openssl/aes.h>
+#include "indexfile.h"
 
 
-// Structure that contains file properties
-struct fileKeyPair {
-    std::string filePath;
-    std::string fileName;
-    std::string EncyptedFileName;
-};
-
-
-// Generates a random string.
 std::string genNewFileName(const int len, int seed) {
     std::string tmp_s;
     static const char alphanum[] =
@@ -50,7 +43,7 @@ std::string createOutputFilePath(std::string fileName) {
 
 
 int main(int argc, char** argv) {
-    std::vector<fileKeyPair> fileKeyPairs;
+    std::vector<FileKey> fileKeyPairs;
 
     int fileNameSeedCounter = 10;
 
@@ -66,10 +59,12 @@ int main(int argc, char** argv) {
                 if (p.is_regular_file()) {
                     fileCount++;
                     fileNameSeedCounter++;
-                    fileKeyPair file;
+
+                    FileKey file;
                     file.fileName = p.path().filename();
                     file.filePath = p.path().relative_path();
                     file.EncyptedFileName = genNewFileName(24, fileNameSeedCounter);
+
                     fileKeyPairs.push_back(file);
                 }
             }
