@@ -2,13 +2,16 @@
 #include <sys/stat.h>
 #include "indexfile.h"
 
-IndexFile::IndexFile(string name, string path) {
-    IndexFile::Name = name;
-    IndexFile::Path = path;
+using namespace std;
+
+IndexFile::IndexFile(string name, string path, int fileNameLength) {
+    Name = name;
+    Path = path;
+    _fileNameLength = fileNameLength;
 }
 
 FileKeyCollection *IndexFile::GetFiles() {
-    FileKeyCollection *collectionPtr = &Collection;
+    FileKeyCollection *collectionPtr = &_collection;
     return collectionPtr;
 }
 
@@ -31,4 +34,19 @@ bool IndexFile::DeleteIndexFile() {
 
 bool IndexFile::AddFile() {
     return false;
+}
+
+string IndexFile::_generateFileName() {
+    int seed = _collection.size();
+    string tmp_s;
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    srand((unsigned) seed);
+    tmp_s.reserve(_fileNameLength);
+    for (int i = 0; i < _fileNameLength; i++) 
+        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
+
+    return tmp_s;
 }
