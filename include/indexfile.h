@@ -1,6 +1,15 @@
 #include "types.h"
 
-bool IndexFileExists(Context *c);
-bool CreateIndexFile(Context *c);
-bool DeleteIndexFile(Context *c);
-bool AddFileToIndexFile(Context *c);
+class IndexFile {
+    private:
+        FileKeyCollection Collection;
+    public:
+        IndexFile(string name, string path);
+        FileKeyCollection *GetFiles();
+        string Name;
+        string Path;
+        bool IndexFileExists();
+        bool CreateIndexFile();
+        bool DeleteIndexFile();
+        bool AddFile();
+};
