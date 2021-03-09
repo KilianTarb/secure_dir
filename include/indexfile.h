@@ -13,5 +13,5 @@ class IndexFile {
         bool IndexFileExists();
         bool CreateIndexFile();
         bool DeleteIndexFile();
-        bool AddFile();
+        FileKey* AddFile(string name, string path);
 };

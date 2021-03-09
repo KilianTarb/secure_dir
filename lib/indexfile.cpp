@@ -69,8 +69,14 @@ bool IndexFile::DeleteIndexFile() {
  * @return true 
  * @return false 
  */
-bool IndexFile::AddFile(FileKey *file) {
-    return false;
+FileKey* IndexFile::AddFile(string name, string path) {
+    FileKey fk;
+    fk.fileName = name;
+    fk.filePath = path;
+    fk.EncyptedFileName = _generateFileName();
+
+    _collection.push_back(fk);
+    return &fk;
 }
 
 /**
