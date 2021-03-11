@@ -80,6 +80,24 @@ FileKey* IndexFile::AddFile(string name, string path) {
 }
 
 /**
+ * @brief Add all files in a directory recursively. Return NULL if directory not found.
+ * 
+ * @param path 
+ * @return FileKeyCollection* 
+ */
+FileKeyCollection* IndexFile::AddDirectory(string path) {
+    if (filesystem::is_directory(path)) {
+        for(auto& p: filesystem::recursive_directory_iterator(path)) {
+            if (p.is_regular_file()) {                    
+                AddFile(p.path().filename(), p.path().relative_path());
+            }
+        }
+        return &_collection;
+    }
+    return NULL;
+}
+
+/**
  * @brief Generate a new pseudo-random name for the encrypted file.
  * 
  * @return pseudo-random name

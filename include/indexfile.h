@@ -1,3 +1,4 @@
+#include <filesystem>
 #include "types.h"
 
 class IndexFile {
@@ -14,4 +15,5 @@ class IndexFile {
         bool CreateIndexFile();
         bool DeleteIndexFile();
         FileKey* AddFile(string name, string path);
+        FileKeyCollection *AddDirectory(string path);
 };
