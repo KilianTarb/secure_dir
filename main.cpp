@@ -38,8 +38,6 @@ int main(int argc, char** argv) {
     std::cout << "Encrypting..." << std::endl;
     createOutputDirectory();
 
-
-    //AesEnc enc(&index, (unsigned char *)"123123123123123213", 128);
     AesEnc enc(&index, (unsigned char *)"123123123123123213", 128);
     enc.StartEncryption(NULL, &print_file_callback);
     
