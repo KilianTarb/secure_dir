@@ -106,6 +106,17 @@ FileKeyCollection* IndexFile::AddDirectory(string path) {
 }
 
 /**
+ * @brief Return the output path for a file.
+ * 
+ * @param file 
+ * FileKey struct
+ * @return const char* 
+ */
+const char* IndexFile::GetEncryptedPath(FileKey *file) {
+    return (Path + "/" + (string)file->EncyptedFileName).c_str();
+}
+
+/**
  * @brief Generate a new pseudo-random name for the encrypted file.
  * 
  * @return pseudo-random name
