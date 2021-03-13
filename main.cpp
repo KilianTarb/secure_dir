@@ -18,11 +18,6 @@ void createOutputDirectory() {
     std::filesystem::create_directory(OUTPUT_DIRECTORY_PATH);
 }
 
-
-std::string createOutputFilePath(std::string fileName) {
-    return OUTPUT_DIRECTORY_PATH + "/" + fileName;
-}
-
 void *print_file_callback(FileKey *file) {
     printf("%s => %s\n", file->fileName, file->EncyptedFileName);
     return NULL;
