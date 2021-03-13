@@ -4,9 +4,9 @@
 using namespace std;
 
 struct FileKey {
-    string filePath;
-    string fileName;
-    string EncyptedFileName;
+    char *filePath;
+    char *fileName;
+    char *EncyptedFileName;
 };
 
 typedef vector<FileKey> FileKeyCollection;
