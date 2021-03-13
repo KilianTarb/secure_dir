@@ -13,7 +13,8 @@ void AesEnc::StartEncryption(
     FileKeyCollection *file_collection = _i->GetFiles();
 
     for (FileKeyCollection::iterator it = file_collection->begin(); it != file_collection->end(); it++) {
-        file_begin_encrypt_callback(it.base());
+        if (file_begin_encrypt_callback != NULL)
+            file_begin_encrypt_callback(it.base());
 
         FILE *source_file;
         source_file = fopen(it->filePath, "r");
@@ -38,7 +39,8 @@ void AesEnc::StartEncryption(
             byte_write = fwrite(out_block, 1, AES_BLOCK_SIZE, dest_file);
         }
 
-        file_encrypted_callback(it.base());
+        if (file_encrypted_callback != NULL)
+            file_encrypted_callback(it.base());
 
         fclose(source_file);
         fclose(dest_file);
