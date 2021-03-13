@@ -1,4 +1,5 @@
 #include "AesEnc.h"
+#include "iostream"
 
 AesEnc::AesEnc(IndexFile *index, unsigned char *key, uint key_size) {
     _i = index;
@@ -15,10 +16,10 @@ void AesEnc::StartEncryption(
         file_begin_encrypt_callback(it.base());
 
         FILE *source_file;
-        source_file = fopen(it->filePath.c_str(), "r");
+        source_file = fopen(it->filePath, "r");
 
         FILE *dest_file;
-        dest_file = fopen(it->EncyptedFileName.c_str(), "ab+");
+        dest_file = fopen(_i->GetEncryptedPath(it.base()), "ab+");
 
         int current_read, total_read, byte_write;
 
