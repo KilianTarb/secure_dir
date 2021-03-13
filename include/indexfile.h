@@ -15,7 +15,7 @@ class IndexFile {
         bool IndexFileExists();
         bool CreateIndexFile();
         bool DeleteIndexFile();
-        const char* GetEncryptedPath(FileKey *file);
+        char* GetEncryptedPath(FileKey *file);
         FileKey* AddFile(char *name, char *path);
         FileKeyCollection* AddDirectory(string path);
 };

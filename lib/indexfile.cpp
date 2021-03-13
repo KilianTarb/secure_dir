@@ -110,10 +110,10 @@ FileKeyCollection* IndexFile::AddDirectory(string path) {
  * 
  * @param file 
  * FileKey struct
- * @return const char* 
+ * @return char* 
  */
-const char* IndexFile::GetEncryptedPath(FileKey *file) {
-    return (Path + "/" + (string)file->EncyptedFileName).c_str();
+char* IndexFile::GetEncryptedPath(FileKey *file) {
+    return strdup((Path + "/" + file->EncyptedFileName).c_str());
 }
 
 /**
