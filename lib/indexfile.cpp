@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include <sys/stat.h>
 #include "indexfile.h"
 
@@ -8,8 +9,11 @@ using namespace std;
  * @brief Construct a new Index File:: Index File object
  * 
  * @param name 
+ * Name of the index file.
  * @param path 
+ * Path of the index file AND encrypted files.
  * @param fileNameLength 
+ * Amount of alphanumeric characters in the file names.
  */
 IndexFile::IndexFile(string name, string path, int fileNameLength) {
     Name = name;
@@ -22,9 +26,8 @@ IndexFile::IndexFile(string name, string path, int fileNameLength) {
  * 
  * @return FileKeyCollection* 
  */
-FileKeyCollection *IndexFile::GetFiles() {
-    FileKeyCollection *collectionPtr = &_collection;
-    return collectionPtr;
+FileKeyCollection* IndexFile::GetFiles() {
+    return &_collection;
 }
 
 /**
@@ -69,14 +72,19 @@ bool IndexFile::DeleteIndexFile() {
  * @return true 
  * @return false 
  */
-FileKey* IndexFile::AddFile(string name, string path) {
+FileKey* IndexFile::AddFile(char *name, char *path) {
     FileKey fk;
-    fk.fileName = name;
-    fk.filePath = path;
-    fk.EncyptedFileName = _generateFileName();
+
+    fk.fileName = (char *)malloc(sizeof(name));
+    strcpy(fk.fileName, name);
+
+    fk.filePath = (char *)malloc(sizeof(path));
+    strcpy(fk.filePath, path);
+
+    fk.EncyptedFileName  =_generateFileName();
 
     _collection.push_back(fk);
-    return &fk;
+    return &_collection[_collection.size()-1];
 }
 
 /**
@@ -88,8 +96,8 @@ FileKey* IndexFile::AddFile(string name, string path) {
 FileKeyCollection* IndexFile::AddDirectory(string path) {
     if (filesystem::is_directory(path)) {
         for(auto& p: filesystem::recursive_directory_iterator(path)) {
-            if (p.is_regular_file()) {                    
-                AddFile(p.path().filename(), p.path().relative_path());
+            if (p.is_regular_file()) {
+                AddFile((char *)p.path().filename().c_str(), (char *)p.path().relative_path().c_str());
             }
         }
         return &_collection;
@@ -102,17 +110,19 @@ FileKeyCollection* IndexFile::AddDirectory(string path) {
  * 
  * @return pseudo-random name
  */
-string IndexFile::_generateFileName() {
-    int seed = _collection.size();
-    string tmp_s;
+char *IndexFile::_generateFileName() {
+    int seed = _collection.size()+1;
+    char tmp[_fileNameLength];
     static const char alphanum[] =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     srand((unsigned) seed);
-    tmp_s.reserve(_fileNameLength);
-    for (int i = 0; i < _fileNameLength; i++) 
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];
 
-    return tmp_s;
+    for (int i = 0; i < _fileNameLength+1; i++)
+        tmp[i] = alphanum[rand() % (sizeof(alphanum) - 1)]; 
+
+    char *returnVal = (char *)malloc(sizeof(tmp));
+    strcpy(returnVal, tmp);
+    return returnVal;
 }

@@ -1,3 +1,4 @@
+#pragma once
 #include <filesystem>
 #include "types.h"
 
@@ -5,7 +6,7 @@ class IndexFile {
     private:
         FileKeyCollection _collection;
         int _fileNameLength;
-        string _generateFileName();
+        char *_generateFileName();
     public:
         IndexFile(string name, string path, const int fileNameLength);
         FileKeyCollection *GetFiles();
@@ -14,6 +15,6 @@ class IndexFile {
         bool IndexFileExists();
         bool CreateIndexFile();
         bool DeleteIndexFile();
-        FileKey* AddFile(string name, string path);
-        FileKeyCollection *AddDirectory(string path);
+        FileKey* AddFile(char *name, char *path);
+        FileKeyCollection* AddDirectory(string path);
 };
