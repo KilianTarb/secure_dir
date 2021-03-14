@@ -48,7 +48,7 @@ bool IndexFile::IndexFileExists() {
  * @return false 
  */
 bool IndexFile::CreateIndexFile() {
-    FILE *f = fopen(Path.c_str(), "w");
+    FILE *f = fopen((Path + "/" + Name).c_str(), "ab+");
     if (f != NULL)
         if (fclose(f) == 0)
             return true;
