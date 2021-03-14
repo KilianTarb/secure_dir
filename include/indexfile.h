@@ -7,6 +7,7 @@ class IndexFile {
         FileKeyCollection _collection;
         int _fileNameLength;
         char *_generateFileName();
+        const char *_getIndexFilePath();
         bool _addToIndexFile(FileKey *file);
     public:
         IndexFile(string name, string path, const int fileNameLength);

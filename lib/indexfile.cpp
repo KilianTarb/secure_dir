@@ -140,6 +140,15 @@ char *IndexFile::_generateFileName() {
 }
 
 /**
+ * @brief Returns the path to the index file.
+ * 
+ * @return const char* 
+ */
+const char *IndexFile::_getIndexFilePath() {
+    return (Path + "/" + Name).c_str();
+}
+
+/**
  * @brief Adds a FileKey entry into the index text file.
  * 
  * @param file 
