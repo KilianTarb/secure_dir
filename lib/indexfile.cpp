@@ -137,3 +137,23 @@ char *IndexFile::_generateFileName() {
     strcpy(returnVal, tmp);
     return returnVal;
 }
+
+/**
+ * @brief Adds a FileKey entry into the index text file.
+ * 
+ * @param file 
+ * FileKey struct
+ * 
+ * @return true if successful.
+ */
+bool IndexFile::_addToIndexFile(FileKey *file) {
+    if (!IndexFileExists())
+        return false;
+
+    FILE *index_file = fopen(Name.c_str(), "ab+");
+
+    string entry = file->EncyptedFileName + (string)" " + file->filePath;
+    const char *c_entry = entry.c_str();
+    fwrite(c_entry, 1, sizeof(c_entry), index_file);
+    return true;
+}
