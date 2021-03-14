@@ -84,6 +84,7 @@ FileKey* IndexFile::AddFile(char *name, char *path) {
     fk.EncyptedFileName  =_generateFileName();
 
     _collection.push_back(fk);
+    _addToIndexFile(&fk);
     return &_collection[_collection.size()-1];
 }
 
@@ -155,5 +156,6 @@ bool IndexFile::_addToIndexFile(FileKey *file) {
     string entry = file->EncyptedFileName + (string)" " + file->filePath;
     const char *c_entry = entry.c_str();
     fwrite(c_entry, 1, sizeof(c_entry), index_file);
+    fclose(index_file);
     return true;
 }
