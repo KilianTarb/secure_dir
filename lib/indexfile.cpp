@@ -48,7 +48,7 @@ bool IndexFile::IndexFileExists() {
  * @return false 
  */
 bool IndexFile::CreateIndexFile() {
-    FILE *f = fopen((Path + "/" + Name).c_str(), "ab+");
+    FILE *f = fopen(_getIndexFilePath(), "ab+");
     if (f != NULL)
         if (fclose(f) == 0)
             return true;
@@ -145,7 +145,7 @@ char *IndexFile::_generateFileName() {
  * @return const char* 
  */
 const char *IndexFile::_getIndexFilePath() {
-    return (Path + "/" + Name).c_str();
+    return strdup((Path + "/" + Name).c_str());
 }
 
 /**
