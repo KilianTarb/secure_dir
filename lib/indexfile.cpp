@@ -160,7 +160,7 @@ bool IndexFile::_addToIndexFile(FileKey *file) {
     if (!IndexFileExists())
         return false;
 
-    FILE *index_file = fopen(Name.c_str(), "ab+");
+    FILE *index_file = fopen(_getIndexFilePath(), "ab+");
 
     string entry = file->EncyptedFileName + (string)" " + file->filePath;
     const char *c_entry = entry.c_str();
