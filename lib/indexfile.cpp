@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cstring>
 #include <sys/stat.h>
 #include "indexfile.h"
@@ -159,12 +158,23 @@ const char *IndexFile::_getIndexFilePath() {
 bool IndexFile::_addToIndexFile(FileKey *file) {
     if (!IndexFileExists())
         return false;
+    
+    if (!_indexFileStream.is_open())
+        _openIndexFileStream();
 
-    FILE *index_file = fopen(_getIndexFilePath(), "ab+");
-
-    string entry = file->EncyptedFileName + (string)" " + file->filePath;
-    const char *c_entry = entry.c_str();
-    fwrite(c_entry, 1, sizeof(c_entry), index_file);
-    fclose(index_file);
+    _indexFileStream << file->EncyptedFileName << " " << file->filePath << endl;
     return true;
+}
+
+/**
+ * @brief Opens the file stream to the index file if the stream isn't already open.
+ * 
+ * @return true 
+ * @return false 
+ */
+bool IndexFile::_openIndexFileStream() {
+    if (!_indexFileStream.is_open()) {
+        _indexFileStream.open(_getIndexFilePath());
+    }
+    return _indexFileStream.is_open();
 }
