@@ -6,6 +6,14 @@ AesEnc::AesEnc(IndexFile *index, unsigned char *key, uint key_size) {
     AES_set_encrypt_key(key, key_size, &_key);
 }
 
+/**
+ * @brief Encrypts all FileKeys in the given IndexFile.
+ *
+ * @param file_begin_encrypt_callback
+ * Invokes when encryption begins
+ * @param file_encrypted_callback
+ * Invokes when encryption completes
+ */
 void AesEnc::StartEncryption(
     void *file_begin_encrypt_callback(FileKey *file),
     void *file_encrypted_callback(FileKey *file)) {
